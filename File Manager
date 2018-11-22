@@ -1,0 +1,59 @@
+from argparse import ArgumentParser
+import os, fnmatch
+import sys
+parser = ArgumentParser()
+group = parser.add_mutually_exclusive_group()
+group.add_argument('-n', '--new', help="Make A New file, Enter File Name", dest="myNewFile")
+group.add_argument('-o', '--output', help="Open Text File, Enter TXT Name", dest="myTxtFile")
+group.add_argument('-p', '--printout', help="Print the File Path", dest="myPath")
+group.add_argument('-e', '--out', help="Exit", action="store_true")
+group.add_argument('-l', '--list', help="List All File ", action="store_true")
+group.add_argument('-g', '--get', help="Get Where R U", dest="myRoad", action="store_true")
+group.add_argument('-c', '--change', help="Change Where R U, Enter What U Want to Go", dest="myChange")
+args = parser.parse_args()
+
+if args.myTxtFile:
+    myFile = args.myTxtFile
+    text = open(myFile)
+    print(text.read())
+
+elif args.myPath:
+    myPath = os.path.abspath(args.myPath)
+    print(myPath)
+
+elif args.myNewFile:
+    filename = args.myNewFile
+    os.mkdir(filename)
+
+elif args.out:
+    try:
+        sys.exit(0)
+    except:
+        print('You can do next move, close previous move success')
+
+elif args.list:
+    listOfFiles = os.listdir('.')
+    pattern = "*"
+    for entry in listOfFiles:
+        if fnmatch.fnmatch(entry, pattern):
+            print(entry)
+    # def files(path):
+    #     for file in os.listdir(path):
+    #         if os.path.isfile(os.path.join(path, file)):
+    #             yield file
+    # for file in files("."):
+    #     print(file)
+
+elif args.myRoad:
+    print(os.getcwd())
+
+elif args.myChange:
+    change = str(args.myChange)
+    os.chdir(change)
+    print(os.getcwd())
+
+'''
+開啟檔案，列出路徑，執行檔案，離開城市，進入指定資料夾
+#if __name__ == '__main__':
+#     main()
+'''
